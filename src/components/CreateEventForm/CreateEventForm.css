@@ -4,53 +4,124 @@
 }
 
 
-
 .EventCard {
-  border-radius: 3px;
+  border-radius: 5px;
   box-shadow: 0px 1px 5px 0.5px rgba(0, 0, 0, 0.1);
+  margin: 50px 5px;
   background-color: #fff;
+  overflow: hidden;
 }
 .EventCard__title {
   display: flex;
   flex-direction: column;
+  flex-basis: 100%;
+}
+.EventCard__title__label {
+  color: #e91e63;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+  word-spacing: 0.25px;
+  margin: 25px 0px 0px 25px;
 }
 .EventCard__title__input {
+  width: calc(100% - 50px);
   flex-basis: 100%;
-  font-size: 18px;
+  font-size: 20px;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
   letter-spacing: 0.5px;
   word-spacing: 0.5px;
-  padding: 35px 25px 15px 25px;
+  padding: 10px 25px 15px 25px;
   border: 0px;
   outline: 0px;
-  box-shadow: 0px 27px 0px -25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 27px 0px -24px rgba(0, 0, 0, 0.1);
   background-color: transparent;
   transition: box-shadow 0.15s ease-in-out 0s;
 }
-.EventCard__title__input:focus {
-  box-shadow: 0px 3px 0px 0px rgba(30, 144, 255, 1.0);
+textarea.EventCard__title__input {
+  height: 25px;
+  min-height: 25px;
+  resize: vertical;
 }
+.EventCard__title__input:focus {
+  box-shadow: 0px 27px 0px -24px rgba(30, 144, 255, 1.0);
+  /* box-shadow: 0px 3px 0px 0px rgba(30, 144, 255, 1.0); */
+}
+
+
+.EventCard__row {
+  display: flex;
+}
+
+
+.EventCard__instance {
+  padding: 25px 0px;
+  margin: 5px;
+  border-radius: 5px;
+  /* background-color: #f5f5f5; */
+}
+.EventCard__instance__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+.EventCard__instance__row:first-child {
+  padding-top: 0px;
+}
+.EventCard__instance__row:last-child {
+  padding-bottom: 0px;
+}
+.EventCard__instance__row:not(:last-child) {
+  border-bottom: 1px solid #e5e5e5;
+}
+.EventCard__instance__row__label {
+  width: 100%;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.25px;
+  word-spacing: 0.25px;
+  border: 0px;
+  box-shadow: 0 0 0 0;
+  outline: 0px;
+  background-color: transparent;
+}
+.EventCard__instance__row__value > input {
+  padding: 10px;
+}
+
 
 
 .EventCard__action {
+  position: relative;
   display: flex;
+  /* display: none; */
   justify-content: flex-end;
-  padding: 15px 25px 25px 25px;
+  align-items: center;
+  padding: 0px 0px 0px 25px;
+  margin-top: 75px;
 }
 .EventCard__action__button {
-  padding: 10px 15px;
+  padding: 15px 25px;
   border-radius: 3px;
-  background-color: dodgerblue;
   cursor: pointer;
+}
+.EventCard__action__button:active {
+  background-color: #fafafa;
+}
+.EventCard__action__button:not(:last-child) {
+  border-right: 1px solid #eee;
 }
 .EventCard__action__button > .text {
   color: #fff;
   font-size: 16px;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  letter-spacing: 0.5px;
-  word-spacing: 0.5px;
+  letter-spacing: 0.25px;
+  word-spacing: 0.25px;
 }
 .EventCard__action__button > .icon {
   display: none;
@@ -59,4 +130,19 @@
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
+}
+.EventCard__action__button--add {
+
+}
+.EventCard__action__button--clear {
+  position: absolute;
+  left: 0px;
+  border-right: 0px solid #eee !important;
+}
+.EventCard__action__button--clear > .text {
+  color: #999;
+  font-weight: 400;
+}
+.EventCard__action__button--save > .text {
+  color: dodgerblue;
 }
