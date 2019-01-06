@@ -1,18 +1,54 @@
 .Input {
   display: flex;
-  margin: 5px;
 }
-.Input__input {
+
+.Input__holder {
   flex-basis: 100%;
-  font-size: 18px;
+  padding: 25px 25px;
+}
+.Input__label {
+  color: #e91e63;
+  font-size: 16px;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   letter-spacing: 0.25px;
   word-spacing: 0.25px;
-  padding: 15px;
-  border-radius: 5px;
+}
+
+.Input__input {
+  width: 100%;
+  flex-basis: 100%;
+  font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  word-spacing: 0.5px;
+  padding: 10px 0px 15px 0px;
   border: 0px;
   outline: 0px;
-  box-shadow: 0px 0px 0px 0px;
-  background-color: #f5f5f5;
+  background-color: transparent;
+}
+textarea.Input__input {
+  height: 25px;
+  min-height: 25px;
+  resize: none;
+}
+
+.Input__line {
+  background-color: #e5e5e5;
+}
+.Input__line__line {
+  width: 0%;
+  height: 3px;
+  border-radius: 1.5px;
+  background-color: dodgerblue;
+  opacity: 0;
+  transition: width 0.5s linear 0.5s,
+    opacity 0.5s linear 0s;
+}
+.Input__line__line--focused {
+  width: 100%;
+  opacity: 1.0;
+  transition: width 0.5s linear 0s,
+    opacity 0.5s linear 0s;
 }
