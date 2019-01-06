@@ -1,0 +1,48 @@
+.Radio {
+
+}
+.RadioItem {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0px 25px;
+  background-color: transparent;
+  cursor: pointer;
+}
+.RadioItem:not(:last-child) {
+  border-bottom: 1px solid #e5e5e5;
+}
+.RadioItem:hover {
+  background-color: rgba(0, 0, 0, 0.025);
+}
+.RadioItem__button {
+  flex-basis: 18px;
+}
+.RadioItem__button__circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18px;
+  height: 18px;
+  margin: 20px 0px;
+  border-radius: 50%;
+  box-shadow: inset 0px 0px 0px 2px #777;
+  background-color: transparent;
+  transition: box-shadow 0.25s ease-in-out 0s;
+}
+.RadioItem--selected .RadioItem__button__circle {
+  box-shadow: inset 0px 0px 0px 25px dodgerblue;
+}
+
+.RadioItem__label {
+  flex-basis: calc(100% - 18px);
+}
+.RadioItem__label__text {
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.25px;
+  word-spacing: 0.25px;
+  line-height: 20px;
+  padding: 20px 0px 20px 20px;
+}
