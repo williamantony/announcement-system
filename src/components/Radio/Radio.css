@@ -28,10 +28,11 @@
   border-radius: 50%;
   box-shadow: inset 0px 0px 0px 2px #777;
   background-color: transparent;
-  transition: box-shadow 0.25s ease-in-out 0s;
+  transition: box-shadow 0s ease-in-out 0s;
 }
 .RadioItem--selected .RadioItem__button__circle {
   box-shadow: inset 0px 0px 0px 25px dodgerblue;
+  transition: box-shadow 0.25s ease-in-out 0s;
 }
 
 .RadioItem__label {

@@ -26,6 +26,7 @@ class Radio extends Component {
               <div
                 className={`RadioItem ${ selectedClass }`}
                 onClick={(e) => this.handleValueChange(item.value)}
+                key={uuid()}
               >
                 <div className="RadioItem__button">
                   <div className="RadioItem__button__circle" />
