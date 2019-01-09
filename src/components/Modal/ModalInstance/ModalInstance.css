@@ -1,0 +1,103 @@
+.ModalInstance {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  visibility: hidden;
+  opacity: 0;
+}
+.ModalInstance[data-visible="true"] {
+  visibility: visible;
+  opacity: 1.0;
+  transition: visibility 0s ease-in-out 0s,
+    opacity 0.25s ease-in-out 0s;
+}
+.ModalInstance[data-visible="false"] {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s ease-in-out 0.25s,
+    opacity 0.25s ease-in-out 0s;
+}
+
+.ModalInstance__bg {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+.ModalInstance__box {
+  position: relative;
+  width: 480px;
+  height: 100%;
+  min-height: 50px;
+  max-height: calc(100% - 10px);
+  margin: 5px 5px 5px 5px;
+  border-radius: 3px;
+  overflow: hidden;
+  z-index: 1;
+  transition: opacity 0.25s ease-in-out 0.15s,
+    transform 0.15s ease-in-out 0.15s;
+}
+.ModalInstance[data-visible="false"] .ModalInstance__box {
+  opacity: 0;
+  transform: translateY(-100px);
+}
+.ModalInstance[data-visible="true"] .ModalInstance__box {
+  opacity: 1.0;
+  transform: translateY(0px);
+}
+
+
+
+.ModalInstance__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  height: 50px;
+  background-color: dodgerblue;
+  z-index: 1;
+}
+
+.ModalInstance__header__close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  cursor: pointer;
+}
+.ModalInstance__header__close > .line {
+  position: relative;
+  width: 2px;
+  height: 20px;
+  background-color: #fff;
+}
+.ModalInstance__header__close > .line:nth-child(1) {
+  left: 1px;
+  transform: rotate(45deg);
+}
+.ModalInstance__header__close > .line:nth-child(2) {
+  left: -1px;
+  transform: rotate(-45deg);
+}
+
+
+
+.ModalInstance__box__content {
+  position: relative;
+  height: auto;
+  max-height: calc(100% - 50px);
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background-color: #fff;
+  overflow-y: auto;
+  z-index: 1;
+}
