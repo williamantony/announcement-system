@@ -17,8 +17,10 @@ export default (state = initialState, action) => {
           ...state.instances,
           [action.payload.modalId]: {
             id: action.payload.modalId,
-            content: action.payload.content,
             isVisible: false,
+            title: action.payload.title,
+            content: action.payload.content,
+            align: action.payload.align,
           },
         },
       };
