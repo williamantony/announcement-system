@@ -5,31 +5,53 @@ import { destroyNotification } from '../../redux/actions';
 class NotificationItem extends Component {
   constructor(props) {
     super(props);
+    this._isMounted = false;
     this.state = {
       id: props.id,
+      group: props.group,
       type: props.instance.type,
       message: props.instance.message,
+      expiry: props.instance.expiry,
       isVisible: false,
     };
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.showNotification();
-      setTimeout(this.hideNotification, 3000);
-    }, 10);
+    this._isMounted = true;
+    this.showNotification();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   showNotification = () => {
-    this.setState({
-      isVisible: true,
-    });
+    if (!this._isMounted) {
+      return null;
+    }
+
+    setTimeout(() => {
+      this.setState({
+        isVisible: true,
+      });
+      if (this.state.expiry) {
+        setTimeout(this.hideNotification, this.state.expiry);
+      }
+    }, 10);
   }
 
   hideNotification = () => {
+    if (!this._isMounted) {
+      return null;
+    }
+
     this.setState({
       isVisible: false,
     });
+
+    setTimeout(() => {
+      this.props.destroyNotification(this.state.id, this.state.group);
+    }, 500);
   }
 
   render() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { initNotification, destroyNotification } from '../../redux/actions';
+import {  } from '../../redux/actions';
 import './Notifications.css';
 import NotificationItem from './NotificationItem';
 
@@ -12,7 +12,6 @@ class Notifications extends Component {
       group,
       instances: props.notifications[group] || {},
     };
-    this.props.initNotification(group);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -20,15 +19,17 @@ class Notifications extends Component {
       instances: props.notifications[state.group] || {},
     };
   }
-  
+
   render() {
+    const instances = Object.keys(this.state.instances);
     return (
-      <div className="Notifications">
+      <div className="Notifications" data-empty={instances.length === 0}>
         {
-          Object.keys(this.state.instances).map((instanceId) => (
+          instances.map((instanceId) => (
             <NotificationItem
               key={instanceId}
               id={instanceId}
+              group={this.state.group}
               instance={this.state.instances[instanceId]}
             />
           ))
@@ -46,8 +47,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  initNotification,
-  destroyNotification,
+  
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);

@@ -1,10 +1,27 @@
 .Notifications {
-  
-}
-.NotificationItem {
   position: relative;
+  height: 75px;
+  overflow: hidden;
+}
+.Notifications[data-empty="false"] {
+  max-height: 75px;
+  opacity: 1.0;
+  transition: max-height 0.25s ease-in-out 0s,
+    opacity 0.25s ease-in-out 0s;
+}
+.Notifications[data-empty="true"] {
+  max-height: 0px;
+  opacity: 0;
+  transition: max-height 0.25s ease-in-out 0s,
+    opacity 0.25s ease-in-out 0s;
+}
+
+.NotificationItem {
+  position: absolute;
+  width: 100%;
   max-height: 100px;
   opacity: 1.0;
+  overflow: hidden;
   transition: max-height 0.25s ease-in-out 0s,
     opacity 0.25s ease-in-out 0s;
 }
@@ -15,16 +32,15 @@
     opacity 0.25s ease-in-out 0s;
 }
 .NotificationItem:not(:last-child) {
-  max-height: 0px;
   opacity: 0;
 }
 
 .NotificationItem__content {
-  padding: 10px 10px 0px 10px;
+  padding: 10px;
 }
 .NotificationItem__content__block {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   border-radius: 3px;
 }
