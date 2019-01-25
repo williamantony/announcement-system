@@ -1,0 +1,84 @@
+.Account {
+  
+}
+
+.Account__title {
+  flex-basis: 100%;
+  font-size: 28px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  word-spacing: 0.25px;
+  padding: 10px 25px;
+}
+
+.Account__form {
+  padding: 10px;
+}
+.Account__input__group {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0px;
+
+}
+.Account__input {
+  position: relative;
+  flex-basis: 100%;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.75px;
+  word-spacing: 0.25px;
+  padding: 17px 20px;
+  margin: 0px 0px -1px 0px;
+  border: 0px;
+  outline: 0px;
+  box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  z-index: 0;
+}
+.Account__input:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.Account__input:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.Account__input:focus {
+  box-shadow: inset 0px 0px 0px 2px #2196f3;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+.Account__action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.Account__action__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 125px;
+  flex-basis: 35%;
+  color: #fff;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+  word-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 12.5px 20px;
+  border-radius: 3px;
+  border: 0px;
+  outline: 0px;
+  background-color: dodgerblue;
+  cursor: pointer;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#499bea+0,207ce5+100;Blue+3d+%237 */
+  background: #499bea; /* Old browsers */
+  background: -moz-linear-gradient(45deg, #499bea 0%, #207ce5 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(45deg, #499bea 0%,#207ce5 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(45deg, #499bea 0%,#207ce5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
