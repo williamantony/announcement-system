@@ -147,5 +147,37 @@ export const userVerifyToken = (token, history) => {
 };
 
 export const userSetPassword = (password, token, history) => {
-  
+  return async dispatch => {
+    try {
+      const response = await axios.post('http://10.0.0.50:5000/user/password/', {
+        password,
+        token,
+      });
+
+      document.cookie = `token=;max-age=${ 0 };`;
+
+      dispatch(
+        createNotification(
+          'success',
+          'Saved new password',
+          'account_choose_password',
+        )
+      );
+
+      setTimeout(() => {
+        history.push('/login');
+      }, 1000);
+
+    } catch (error) {
+
+      dispatch(
+        createNotification(
+          'error',
+          'Unknown error - please check back later.',
+          'account_choose_password',
+        )
+      );
+
+    }
+  };
 };
