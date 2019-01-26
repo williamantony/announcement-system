@@ -19,7 +19,6 @@ export const userRegisterEmail = (email, firstname, lastname, history) => {
       });
 
       setTimeout(() => {
-        console.log(response.data);
         if (response.data.error !== null) {
           dispatch(
             createNotification(
@@ -57,13 +56,57 @@ export const userRegisterEmail = (email, firstname, lastname, history) => {
   };
 };
 
-export const userLogin = (username, password) => {
-  return {
-    type: USER_ACCOUNT_LOGIN,
-    payload: {
-      username,
-      password,
-    },
+export const userLogin = (username, password, history) => {
+  return async dispatch => {
+    try {
+      const response = await axios.post('http://10.0.0.50:5000/user/login/', {
+        username,
+        password,
+      });
+
+      const {
+        data,
+        error,
+      } = response.data;
+
+      if (error !== null) {
+        if (new RegExp(/^INVALID_USERNAME_ERROR|WRONG_PASSWORD_ERROR$/gi).test(error)) {
+          dispatch(
+            createNotification(
+              'error',
+              'Invalid credentials. Please try again.',
+              'account_login',
+            )
+          );
+        } else {
+          throw new Error('Unknown Error');
+        }
+      } else {
+        if (data.token) {
+          document.cookie = `token=${ data.token }; max-age=${ 60 * 30 };`;
+          dispatch(
+            createNotification(
+              'success',
+              'Authentication Successful',
+              'account_login',
+            )
+          );
+          setTimeout(() => {
+            history.push('/dashboard');
+          }, 1000);
+        } else {
+          throw new Error('Unknown Error');
+        }
+      }
+    } catch (error) {
+      dispatch(
+        createNotification(
+          'error',
+          'Unknown error - please check back later.',
+          'account_login',
+        )
+      );
+    }
   };
 };
 
@@ -83,8 +126,6 @@ export const userVerifyToken = (token, history) => {
       const response = await axios.post('http://10.0.0.50:5000/user/verify/', {
         token,
       });
-
-      console.log(response.data.data);
 
       if (response.data.error !== null) {
 
