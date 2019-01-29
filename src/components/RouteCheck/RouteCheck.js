@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { userVerifyToken } from '../../../redux/actions';
-import { getCookie } from '../../../helper';
+import { userVerifyToken } from '../../redux/actions';
+import { getCookie } from '../../helper';
 
 class RouteCheck extends Component {
   constructor(props) {
@@ -19,25 +19,38 @@ class RouteCheck extends Component {
     };
     this.state = {
       token: getCookie('token'),
+      isVerified: null,
+    };
+    props.userVerifyToken(props.history);
+  }
+  
+  static getDerivedStateFromProps(props, state) {
+    return {
+      isVerified: props.user.isVerified,
     };
   }
-
+  
   render() {
     const { pathname } = this.props.location;
-    const isAuthenticated = !!this.state.token;
+
     const isPublicRoute = this.routes.public.includes(pathname);
     const isPrivateRoute = this.routes.private.includes(pathname);
+    
+    const hasUserToken = !!this.state.token;
+    const isTokenInvalid = this.state.isVerified === false;
+    
+    let component = <Route {...this.props} />;
 
     if (isPublicRoute) {
-      if (isAuthenticated)
-        return <Redirect to="/dashboard" />;
+      if (hasUserToken)
+        component = <Redirect to="/dashboard" />;
     }
     else if (isPrivateRoute) {
-      if (!isAuthenticated)
-        return <Redirect to="/login" />;
+      if (!hasUserToken || isTokenInvalid)
+        component = <Redirect to="/login" />;
     }
 
-    return <Route {...this.props} />;
+    return component;
   }
 }
 
