@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { createNotification } from '../../../redux/actions';
+import { createNotification, userLogin } from '../../../redux/actions';
 import '../Account.css';
 import './SignIn.css';
 import Notifications from '../../../components/Notifications/Notifications';
@@ -43,6 +44,7 @@ class SignIn extends Component {
 
     if (this.validateInput()) {
       this.props.createNotification('info', 'Authenticating your credentials', 'account_login');
+      this.props.userLogin(this.state.username, this.state.password, this.props.history);
     }
   }
 
@@ -92,6 +94,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   createNotification,
+  userLogin,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignIn));

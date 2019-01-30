@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { createNotification } from '../../../redux/actions';
+import { createNotification, userSetPassword } from '../../../redux/actions';
 import '../Account.css';
 import './ChoosePassword.css';
 import Notifications from '../../../components/Notifications/Notifications';
@@ -42,15 +43,14 @@ class ChoosePassword extends Component {
     event.preventDefault();
 
     if (this.validateInput()) {
-      this.props.createNotification('info', 'Authenticating your credentials', 'account_choose_password');
-      // Implement Create Password Action 
+      this.props.userSetPassword(this.state.password, this.props.history);
     }
   }
 
   render() {
     return (
       <div className="Account ChoosePassword">
-        <div className="Account__title">Create Password</div>
+        <div className="Account__title">Choose Password</div>
         <Notifications group="account_choose_password" />
         <form className="Account__form" onSubmit={this.handleSubmit}>
           <div className="Account__input__group">
@@ -75,7 +75,7 @@ class ChoosePassword extends Component {
             <input
               type="submit"
               className="Account__action__button"
-              value="Log In"
+              value="SET Password"
             />
           </div>
         </form>
@@ -91,6 +91,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   createNotification,
+  userSetPassword,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChoosePassword);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ChoosePassword));
