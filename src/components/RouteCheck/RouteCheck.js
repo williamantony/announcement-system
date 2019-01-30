@@ -18,15 +18,19 @@ class RouteCheck extends Component {
       ],
     };
     this.state = {
-      token: getCookie('token'),
+      token: getCookie('token') || null,
       isVerified: null,
+      isCheckDone: false,
     };
     props.userVerifyToken(props.history);
   }
   
   static getDerivedStateFromProps(props, state) {
+    const { isVerified } = props.user;
+    if (isVerified === state.isVerified) return null;
     return {
-      isVerified: props.user.isVerified,
+      isVerified,
+      isCheckDone: true,
     };
   }
   
@@ -37,17 +41,21 @@ class RouteCheck extends Component {
     const isPrivateRoute = this.routes.private.includes(pathname);
     
     const hasUserToken = !!this.state.token;
-    const isTokenInvalid = this.state.isVerified === false;
+    const isTokenValid = !!this.state.isVerified;
     
     let component = <Route {...this.props} />;
 
     if (isPublicRoute) {
-      if (hasUserToken)
+      if (hasUserToken && isTokenValid)
         component = <Redirect to="/dashboard" />;
     }
     else if (isPrivateRoute) {
-      if (!hasUserToken || isTokenInvalid)
+      if (!hasUserToken || !isTokenValid)
         component = <Redirect to="/login" />;
+    }
+
+    if (this.state.isVerified === null) {
+      return null;
     }
 
     return component;
