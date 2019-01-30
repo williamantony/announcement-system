@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createNotification } from './notifications.action';
+import { getCookie, setCookie, clearCookie } from '../../helper';
 
 /**
  * User
@@ -17,6 +18,8 @@ export const userRegisterEmail = (email, firstname, lastname, history) => {
         firstname,
         lastname,
       });
+
+      console.log(response);
 
       setTimeout(() => {
         if (response.data.error !== null) {
@@ -36,6 +39,7 @@ export const userRegisterEmail = (email, firstname, lastname, history) => {
               3000,
             )
           );
+
           setTimeout(() => {
             history.push('/');
           }, 2000);
@@ -83,7 +87,7 @@ export const userLogin = (username, password, history) => {
         }
       } else {
         if (data.token) {
-          document.cookie = `token=${ data.token }; max-age=${ 60 * 30 };`;
+          await setCookie('token', data.token, 60 * 30)
           dispatch(
             createNotification(
               'success',
@@ -120,65 +124,52 @@ export const userVerification = (isVerified, user_id) => {
   };
 };
 
-export const userVerifyToken = (token, history) => {
+export const userVerifyToken = (history) => {
   return async dispatch => {
     try {
+      const token = getCookie('token');
+
+      if (!token) {
+        throw String('Missing Token');
+      }
+
       const response = await axios.post('http://10.0.0.50:5000/user/verify/', {
         token,
       });
 
       if (response.data.error !== null) {
+        throw String('Verification failed - invalid/expired token');
+      }
 
-        dispatch(
-          userVerification(false)
-        );
+      dispatch(
+        userVerification(true)
+      );
 
-        dispatch(
-          createNotification(
-            'error',
-            'Verification failed - invalid/expired token',
-            'account_verify_email',
-          )
-        );
+      dispatch(
+        createNotification(
+          'success',
+          'Email address verified',
+          'account_verify_email',
+        )
+      );
 
-      } else {
+      if (response.data.data.hasPassword === false) {
 
-        dispatch(
-          createNotification(
-            'success',
-            'Email address verified',
-            'account_verify_email',
-          )
-        );
+        setTimeout(() => {
+          history.push('/password');
+        }, 1000);
 
-        if (response.data.data.hasPassword === false) {
-
-          document.cookie = `token=${ token };path=/password;max-age=${ 60 * 1 };`;
-
-          dispatch(
-            userVerification(true)
-          );
-
-          setTimeout(() => {
-            history.push('/password', { token });
-          }, 1000);
-
-        } else {
-
-          document.cookie = `token=${ token };max-age=${ 60 * 30 };`;
-
-          dispatch(
-            userVerification(true)
-          );
-
-        }
       }
     } catch (error) {
 
       dispatch(
+        userVerification(false)
+      );
+
+      dispatch(
         createNotification(
           'error',
-          'Unknown error - please check back later.',
+          error,
           'account_verify_email',
         )
       );
@@ -187,34 +178,57 @@ export const userVerifyToken = (token, history) => {
   };
 };
 
-export const userSetPassword = (password, token, history) => {
-  return async dispatch => {
+export const userSetPassword = (password, history) => {
+  return dispatch => {
     try {
-      const response = await axios.post('http://10.0.0.50:5000/user/password/', {
-        password,
-        token,
-      });
-
-      document.cookie = `token=;max-age=${ 0 };`;
 
       dispatch(
         createNotification(
-          'success',
-          'Saved new password',
+          'info',
+          'Replacing your current password',
           'account_choose_password',
         )
       );
 
-      setTimeout(() => {
-        history.push('/login');
-      }, 1000);
+      setTimeout(async () => {
+
+        const token = getCookie('token');
+  
+        if (!token) {
+          throw String('Missing Token');
+        }
+  
+        const response = await axios.post('http://10.0.0.50:5000/user/password/', {
+          password,
+          token,
+        });
+  
+        if (response.data.error !== null) {
+          throw String('Attempt to change password failed');
+        }
+  
+        await clearCookie('token');
+  
+        dispatch(
+          createNotification(
+            'success',
+            'Saved new password',
+            'account_choose_password',
+          )
+        );
+  
+        setTimeout(() => {
+          history.push('/login');
+        }, 1000);
+
+      }, 250);
 
     } catch (error) {
 
       dispatch(
         createNotification(
           'error',
-          'Unknown error - please check back later.',
+          error,
           'account_choose_password',
         )
       );
