@@ -15,8 +15,8 @@ class VerifyEmail extends Component {
   }
 
   async componentDidMount() {
-    await setCookie('token', this.state.token, 60 * 1);
-    this.props.userVerifyToken(this.props.history);
+    await setCookie('token', this.state.token, 1);
+    this.props.userVerifyToken();
   }
 
   render() {

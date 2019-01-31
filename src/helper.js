@@ -7,12 +7,14 @@ export const getCookie = (name) => {
   return null;
 };
 
-export const setCookie = (name, value = '', maxAge = 0) => {
+export const setCookie = (name, value = '', minutes = 0) => {
   return new Promise((resolve, reject) => {
     if (!name) return reject(null);
+    const expiry = new Date(Date.now() + (minutes * 60 * 1000)).toUTCString();
     const cookieKeyValue = `${ name }=${ value };`;
-    const cookieExpiry = `expires=${ new Date(Date.now() + maxAge ).toISOString() };`;
-    document.cookie = `${ cookieKeyValue } ${ cookieExpiry }`;
+    const cookieExpiry = `expires=${ expiry };`;
+    const newCookie = `${ cookieKeyValue } ${ cookieExpiry }`;
+    document.cookie = newCookie;
     const cookieValue = getCookie(name);
     if (cookieValue !== value)
       return reject(null);
@@ -22,5 +24,5 @@ export const setCookie = (name, value = '', maxAge = 0) => {
 
 export const clearCookie = (name) => {
   if (!name) return null;
-  return setCookie(name, '', -7200);
+  return setCookie(name, '', 0);
 };

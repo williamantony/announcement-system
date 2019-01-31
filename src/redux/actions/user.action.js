@@ -89,7 +89,7 @@ export const userLogin = (username, password) => {
         }
       } else {
         if (data.token) {
-          await setCookie('token', data.token, 60 * 30);
+          await setCookie('token', data.token, 30);
           dispatch(
             createNotification(
               'success',
