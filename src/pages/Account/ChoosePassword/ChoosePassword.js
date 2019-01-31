@@ -43,7 +43,7 @@ class ChoosePassword extends Component {
     event.preventDefault();
 
     if (this.validateInput()) {
-      this.props.userSetPassword(this.state.password, this.props.history);
+      this.props.userSetPassword(this.state.password);
     }
   }
 

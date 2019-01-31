@@ -54,7 +54,7 @@ class Registration extends Component {
 
     if (this.validateInput()) {
       this.props.createNotification('info', 'Signing Up', 'account_registration', 3000);
-      this.props.userRegisterEmail(email, firstname, lastname, this.props.history);
+      this.props.userRegisterEmail(email, firstname, lastname);
     }
   }
 

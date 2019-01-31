@@ -44,7 +44,7 @@ class SignIn extends Component {
 
     if (this.validateInput()) {
       this.props.createNotification('info', 'Authenticating your credentials', 'account_login');
-      this.props.userLogin(this.state.username, this.state.password, this.props.history);
+      this.props.userLogin(this.state.username, this.state.password);
     }
   }
 
