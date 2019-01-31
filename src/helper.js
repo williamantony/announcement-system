@@ -24,5 +24,5 @@ export const setCookie = (name, value = '', minutes = 0) => {
 
 export const clearCookie = (name) => {
   if (!name) return null;
-  return setCookie(name, '', 0);
+  return setCookie(name, '', 1/60);
 };

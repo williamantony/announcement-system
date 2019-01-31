@@ -117,13 +117,18 @@ export const userLogin = (username, password) => {
 };
 
 export const userSignOut = async () => {
-  await clearCookie('token');
-  history.push('/login');
-  return {
-    type: USER_ACCOUNT_SIGNOUT,
-    payload: {
-
-    },
+  return async dispatch => {
+    dispatch(
+      createNotification(
+        'success',
+        'Signed Out - Redirecting in 2s',
+        'account_signout',
+      )
+    );
+    await clearCookie('token');
+    setTimeout(() => {
+      history.push('/login');
+    }, 2000);
   };
 };
 
