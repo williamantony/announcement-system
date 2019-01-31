@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../../history';
 import { createNotification } from './notifications.action';
 import { getCookie, setCookie, clearCookie } from '../../helper';
 
@@ -7,10 +8,11 @@ import { getCookie, setCookie, clearCookie } from '../../helper';
  */
 export const USER_REGISTER_EMAIL = 'USER_REGISTER_EMAIL';
 export const USER_ACCOUNT_LOGIN = 'USER_ACCOUNT_LOGIN';
+export const USER_ACCOUNT_SIGNOUT = 'USER_ACCOUNT_SIGNOUT';
 export const USER_SET_PASSWORD = 'USER_SET_PASSWORD';
 export const USER_VERIFICATION = 'USER_VERIFICATION';
 
-export const userRegisterEmail = (email, firstname, lastname, history) => {
+export const userRegisterEmail = (email, firstname, lastname) => {
   return async dispatch => {
     try {
       const response = await axios.post('http://10.0.0.50:5000/user/', {
@@ -60,7 +62,7 @@ export const userRegisterEmail = (email, firstname, lastname, history) => {
   };
 };
 
-export const userLogin = (username, password, history) => {
+export const userLogin = (username, password) => {
   return async dispatch => {
     try {
       const response = await axios.post('http://10.0.0.50:5000/user/login/', {
@@ -87,7 +89,7 @@ export const userLogin = (username, password, history) => {
         }
       } else {
         if (data.token) {
-          await setCookie('token', data.token, 60 * 30)
+          await setCookie('token', data.token, 60 * 30);
           dispatch(
             createNotification(
               'success',
@@ -114,6 +116,17 @@ export const userLogin = (username, password, history) => {
   };
 };
 
+export const userSignOut = async () => {
+  await clearCookie('token');
+  history.push('/login');
+  return {
+    type: USER_ACCOUNT_SIGNOUT,
+    payload: {
+
+    },
+  };
+};
+
 export const userVerification = (isVerified, user_id) => {
   return {
     type: USER_VERIFICATION,
@@ -124,10 +137,10 @@ export const userVerification = (isVerified, user_id) => {
   };
 };
 
-export const userVerifyToken = (history) => {
+export const userVerifyToken = () => {
   return async dispatch => {
     try {
-      const token = getCookie('token');
+      const token = await getCookie('token');
 
       if (!token) {
         throw String('Missing Token');
@@ -178,7 +191,7 @@ export const userVerifyToken = (history) => {
   };
 };
 
-export const userSetPassword = (password, history) => {
+export const userSetPassword = (password) => {
   return dispatch => {
     try {
 
@@ -192,7 +205,7 @@ export const userSetPassword = (password, history) => {
 
       setTimeout(async () => {
 
-        const token = getCookie('token');
+        const token = await getCookie('token');
   
         if (!token) {
           throw String('Missing Token');
