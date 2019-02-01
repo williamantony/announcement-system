@@ -51,33 +51,55 @@
   z-index: 1;
 }
 
+.Account__input__link {
+  color: #555;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+  word-spacing: 0.25px;
+  text-decoration: none;
+  margin-left: 20px;
+}
+
 .Account__action {
   display: flex;
+  flex-direction: row;
   justify-content: flex-end;
   margin-top: 20px;
+}
+.Account__action a {
+  text-decoration: none;
 }
 .Account__action__button {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 125px;
-  color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   word-spacing: 0.5px;
+  text-decoration: none;
   text-transform: uppercase;
   padding: 12.5px 25px;
-  border-radius: 3px;
+  /* margin-left: 10px; */
+  border-radius: 25px;
   border: 0px;
   outline: 0px;
-  background-color: dodgerblue;
+  background-color: transparent;
   cursor: pointer;
+}
+.Account__action__button--primary {
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 12.5px 35px;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#499bea+0,207ce5+100;Blue+3d+%237 */
   background: #499bea; /* Old browsers */
   background: -moz-linear-gradient(45deg, #499bea 0%, #207ce5 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(45deg, #499bea 0%,#207ce5 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(45deg, #499bea 0%,#207ce5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
 }

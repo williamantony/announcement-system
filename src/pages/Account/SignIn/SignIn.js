@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createNotification, userLogin } from '../../../redux/actions';
 import '../Account.css';
@@ -72,10 +72,18 @@ class SignIn extends Component {
               onChange={this.handleInput}
             />
           </div>
+          <div className="Account__input__group">
+            <div>
+              <Link to="/reset-password" className="Account__input__link">Forgot Password?</Link>
+            </div>
+          </div>
           <div className="Account__action">
+            <Link to="/register">
+              <button className="Account__action__button">Register</button>
+            </Link>
             <input
               type="submit"
-              className="Account__action__button"
+              className="Account__action__button Account__action__button--primary"
               value="Log In"
             />
           </div>

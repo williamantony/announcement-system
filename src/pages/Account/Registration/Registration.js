@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createNotification, userRegisterEmail } from '../../../redux/actions';
 import '../Account.css';
@@ -93,9 +93,12 @@ class Registration extends Component {
             />
           </div>
           <div className="Account__action">
+            <Link to="/login">
+              <button className="Account__action__button">Sign In</button>
+            </Link>
             <input
               type="submit"
-              className="Account__action__button"
+              className="Account__action__button Account__action__button--primary"
               value="Register"
             />
           </div>
