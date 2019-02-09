@@ -1,0 +1,65 @@
+.MenuBarItem {
+
+}
+
+.MenuBarItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  height: 60px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.MenuBarItem[data-active="false"] {
+  opacity: 0.25;
+  cursor: default;
+}
+.MenuBarItem:not([data-active="false"]):hover {
+  background-color: #f5f5f5;
+}
+.MenuBarItem > .holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 25px;
+}
+.MenuBarItem:not(:last-child) > .holder {
+  box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 0.1);
+}
+.MenuBarItem:hover > .holder {
+  box-shadow: 1px 0px 0px 0px rgba(0, 0, 0, 0);
+}
+.MenuBarItem__text {
+  color: #000;
+  font-size: 18px;
+  font-family: 'Roboto', Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  word-spacing: 0.5px;
+  margin-top: 3px;
+  margin-left: 15px;
+}
+.MenuBarItem__icon {
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.MenuBarItem__icon[data-icon="menu"] {
+  background-image: url('../../images/menu-icon.png');
+}
+.MenuBarItem__icon[data-icon="add"] {
+  background-image: url('../../images/add-icon-filled-green.png');
+}
+.MenuBarItem__icon[data-icon="delete"] {
+  background-image: url('../../images/delete-icon-filled-red.png');
+}
+.MenuBarItem__icon[data-icon="edit"] {
+  background-image: url('../../images/edit-icon-filled-blue.png');
+}
+.MenuBarItem__icon[data-icon="filter"] {
+  background-image: url('../../images/filter-icon.png');
+}
