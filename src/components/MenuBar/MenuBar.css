@@ -1,0 +1,20 @@
+.MenuBar {
+  padding: 15px 0px;
+}
+.MenuBar__list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.MenuBar__list[data-visible="false"] {
+  display: none;
+}
+.MenuBar__list[data-visible="true"] {
+  display: flex;
+}
+
+.MenuBar__list__set {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
