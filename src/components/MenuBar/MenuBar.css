@@ -1,5 +1,6 @@
 .MenuBar {
   padding: 15px 0px;
+  border-bottom: 1px solid #eeeeee;
 }
 .MenuBar__list {
   display: flex;
