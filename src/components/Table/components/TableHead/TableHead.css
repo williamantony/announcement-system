@@ -1,0 +1,33 @@
+.TableHead {
+
+}
+.TableHead__row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px 0px;
+}
+.TableHead__row__selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 60px;
+  min-width: 60px;
+  height: 0px;
+}
+.TableHead__row__content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-basis: calc(100% - 50px);
+}
+.TableHead__row__content__item {
+  flex-basis: 250px;
+  font-size: 13px;
+  font-family: 'Roboto', Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0px 25px;
+  opacity: 0.5;
+}
