@@ -1,20 +1,21 @@
-.MenuBar {
+.TableMenu {
   padding: 15px 0px;
+  margin-bottom: 25px;
   border-bottom: 1px solid #eeeeee;
 }
-.MenuBar__list {
+.TableMenu__list {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.MenuBar__list[data-visible="false"] {
+.TableMenu__list[data-visible="false"] {
   display: none;
 }
-.MenuBar__list[data-visible="true"] {
+.TableMenu__list[data-visible="true"] {
   display: flex;
 }
 
-.MenuBar__list__set {
+.TableMenu__list__set {
   display: flex;
   justify-content: center;
   align-items: center;

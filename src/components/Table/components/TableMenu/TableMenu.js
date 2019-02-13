@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { showModal } from '../../redux/actions';
+import { showModal } from '../../../../redux/actions';
 import uuid from 'uuid/v4';
-import './MenuBar.css';
-import MenuBarItem from './components/MenuBarItem/MenuBarItem';
+import './TableMenu.css';
+import TableMenuItem from './components/TableMenuItem/TableMenuItem';
 import PeopleSetName from '../People/PeopleSetName/PeopleSetName';
 
-class MenuBar extends Component {
+class TableMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,28 +34,28 @@ class MenuBar extends Component {
 
   render() {
     return (
-      <div className="MenuBar">
+      <div className="TableMenu">
         <div className="wrapper">
         
-          <div className="MenuBar__list" data-visible={!this.state.isSelected}>
-            <div className="MenuBar__list__set">
-              <MenuBarItem icon="menu" />
-              <MenuBarItem text="Select all" />
+          <div className="TableMenu__list" data-visible={!this.state.isSelected}>
+            <div className="TableMenu__list__set">
+              <TableMenuItem icon="menu" />
+              <TableMenuItem text="Select all" />
             </div>
-            <div className="MenuBar__list__set">
-              <MenuBarItem text="Add member" icon="add" onClick={this.createPeople} />
-              <MenuBarItem icon="filter" />
+            <div className="TableMenu__list__set">
+              <TableMenuItem text="Add member" icon="add" onClick={this.createPeople} />
+              <TableMenuItem icon="filter" />
             </div>
           </div>
 
-          <div className="MenuBar__list" data-visible={this.state.isSelected}>
-            <div className="MenuBar__list__set">
-              <MenuBarItem icon="menu" />
-              <MenuBarItem text="Unselect all" />
+          <div className="TableMenu__list" data-visible={this.state.isSelected}>
+            <div className="TableMenu__list__set">
+              <TableMenuItem icon="menu" />
+              <TableMenuItem text="Unselect all" />
             </div>
-            <div className="MenuBar__list__set">
-              <MenuBarItem text="Edit" icon="edit" data-active={!this.state.isMultiSelected} />
-              <MenuBarItem text="Delete" icon="delete" />
+            <div className="TableMenu__list__set">
+              <TableMenuItem text="Edit" icon="edit" data-active={!this.state.isMultiSelected} />
+              <TableMenuItem text="Delete" icon="delete" />
             </div>
           </div>
 
@@ -77,4 +77,4 @@ const mapDispatchToProps = {
   showModal,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MenuBar));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TableMenu));
