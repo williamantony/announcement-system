@@ -33,6 +33,7 @@
   height: 30px;
   transform: scale(0.35);
   filter: grayscale();
+  opacity: 0.75;
 }
 .TableRow[data-selected="false"] .TableRow__selector__icon {
   border-radius: 7px;
