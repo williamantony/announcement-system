@@ -9,7 +9,9 @@ const TableHead = ({ columns = null }) => {
   return (
     <div className="TableHead">
       <div className="TableHead__row">
-        <div className="TableHead__row__selector" />
+        <div className="TableHead__row__selector" data-selected="false">
+          <div className="TableHead__row__selector__icon" />
+        </div>
         <div className="TableHead__row__content">
           {
             columns.map(column => (
