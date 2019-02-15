@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { showModal } from '../../../../redux/actions';
-import uuid from 'uuid/v4';
 import './TableMenu.css';
 import TableMenuItem from './components/TableMenuItem/TableMenuItem';
-import PeopleSetName from '../People/PeopleSetName/PeopleSetName';
 
 class TableMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      customMenu: props.customMenu,
       isSelected: false,
       isMultiSelected: false,
     };
@@ -27,10 +26,6 @@ class TableMenu extends Component {
     return null;
   }
 
-  createPeople = () => {
-    const modalId = uuid();
-    this.props.showModal(modalId, <PeopleSetName modalId={modalId} />, 'Add Member');
-  }
 
   render() {
     return (
@@ -39,23 +34,22 @@ class TableMenu extends Component {
         
           <div className="TableMenu__list" data-visible={!this.state.isSelected}>
             <div className="TableMenu__list__set">
-              <TableMenuItem icon="menu" />
-              <TableMenuItem text="Select all" />
+              <TableMenuItem icon="search" />
             </div>
             <div className="TableMenu__list__set">
-              <TableMenuItem text="Add member" icon="add" onClick={this.createPeople} />
-              <TableMenuItem icon="filter" />
+              { this.state.customMenu }
+              <TableMenuItem icon="menu" />
             </div>
           </div>
 
           <div className="TableMenu__list" data-visible={this.state.isSelected}>
             <div className="TableMenu__list__set">
-              <TableMenuItem icon="menu" />
-              <TableMenuItem text="Unselect all" />
+              <TableMenuItem icon="search" />
             </div>
             <div className="TableMenu__list__set">
               <TableMenuItem text="Edit" icon="edit" data-active={!this.state.isMultiSelected} />
               <TableMenuItem text="Delete" icon="delete" />
+              <TableMenuItem icon="menu" />
             </div>
           </div>
 
