@@ -21,9 +21,7 @@ export const userRegisterEmail = (email, firstname, lastname) => {
         lastname,
       });
 
-      console.log(response);
-
-      setTimeout(() => {
+      setTimeout(async () => {
         if (response.data.error !== null) {
           dispatch(
             createNotification(
@@ -41,9 +39,16 @@ export const userRegisterEmail = (email, firstname, lastname) => {
               3000,
             )
           );
-
+          dispatch({
+            type: USER_REGISTER_EMAIL,
+            payload: {
+              firstname,
+              email,
+              token: response.data.data.token,
+            },
+          });
           setTimeout(() => {
-            history.push('/');
+            history.push('/verify/email');
           }, 2000);
         }
       }, 500);
@@ -74,7 +79,7 @@ export const userLogin = (username, password) => {
         data,
         error,
       } = response.data;
-
+      
       if (error !== null) {
         if (new RegExp(/^INVALID_USERNAME_ERROR|WRONG_PASSWORD_ERROR$/gi).test(error)) {
           dispatch(
@@ -129,6 +134,33 @@ export const userSignOut = async () => {
     setTimeout(() => {
       history.push('/login');
     }, 2000);
+  };
+};
+
+export const userSentEmailVerify = (firstname, email, token) => {
+  return async dispatch => {
+    dispatch(
+      createNotification(
+        'info',
+        'Sending email for verification',
+        'account_verify_email_sent',
+      )
+    );
+    const response = await axios.post('http://10.0.0.50:5000/user/send-verification', {
+      firstname,
+      email,
+      token,
+    });
+
+    setTimeout(() => {
+      dispatch(
+        createNotification(
+          'success',
+          `Email has been sent.`,
+          'account_verify_email_sent',
+        )
+      );
+    }, 1500);
   };
 };
 
@@ -220,7 +252,7 @@ export const userSetPassword = (password) => {
           password,
           token,
         });
-  
+
         if (response.data.error !== null) {
           throw String('Attempt to change password failed');
         }
