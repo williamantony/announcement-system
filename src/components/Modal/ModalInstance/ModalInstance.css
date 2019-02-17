@@ -78,6 +78,7 @@
   height: 100%;
   opacity: 0.25;
   cursor: pointer;
+  z-index: 2;
 }
 .ModalInstance__header__close > .line {
   position: relative;
@@ -129,4 +130,10 @@
   opacity: 1.0;
   transition: opacity 0.25s ease-in-out 0s,
     transform 0.25s ease-in-out 0s;
+}
+
+.ModalInstance[data-hastitle="false"] .ModalInstance__content {
+  margin-top: -50px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 }

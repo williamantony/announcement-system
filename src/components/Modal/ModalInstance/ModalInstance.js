@@ -34,6 +34,7 @@ class ModalInstance extends Component {
         className="ModalInstance"
         data-visible={this.state.isVisible}
         data-align={this.state.align}
+        data-hastitle={!!this.state.title}
       >
         <div className="ModalInstance__bg" onClick={this.hideModal} />
         <div className="ModalInstance__header">
@@ -55,7 +56,7 @@ class ModalInstance extends Component {
 }
 
 const mapStateToProps = state => {
-  return state;
+  return {};
 };
 
 const mapDispatchToProps = {
