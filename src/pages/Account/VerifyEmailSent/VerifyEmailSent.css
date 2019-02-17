@@ -1,0 +1,8 @@
+.VerifyEmailSent {
+  max-width: 480px;
+  margin: 50px auto;
+}
+.Account__text > span.email {
+  color: blue;
+  font-weight: 400;
+}
