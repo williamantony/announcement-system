@@ -25,7 +25,7 @@ const withRouteCheck = (Component) => {
 
     render() {
       const { token, isVerified } = this.state;
-      const { pathname } = this.props.location;
+      const pathname = this.props.match.path;
 
       if (isVerified === null) return null;  
 
