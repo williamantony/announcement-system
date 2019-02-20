@@ -26,3 +26,72 @@ export const clearCookie = (name) => {
   if (!name) return null;
   return setCookie(name, '', 1/60);
 };
+
+export const fromName = (fullname = null) => {
+  if (fullname === null) return false;
+
+  const name = fullname
+    .replace(/\.?\s/gi, ' ')
+    .match(/([a-z.,\-']{1,})/gi)
+    .reduce((obj, part) => {
+
+      if ('firstname' in obj === false) {
+        obj = {
+          firstname: null,
+          lastname: null,
+          middleInitial: null,
+          preInitial: null,
+          postInitial: null,
+        };
+      }
+
+      const values = {};
+      
+      const {
+        firstname,
+        lastname,
+        middleInitial,
+        preInitial,
+        postInitial,
+      } = obj;
+
+      const isInitial = new RegExp(/^[a-z]{1}$/gi).test(part);
+
+      if (isInitial && firstname === null && lastname === null) {
+        values.preInitial = (`${preInitial || ''} ${part}`).trim();
+      }
+
+      else if (isInitial && firstname === null && lastname !== null) {
+        values.middleInitial = (`${middleInitial || ''} ${part}`).trim();
+      }
+
+      else if (isInitial && firstname !== null && lastname !== null) {
+        values.postInitial = (`${postInitial || ''} ${part}`).trim();
+      }
+
+      else if (!isInitial && firstname === null && lastname === null) {
+        values.lastname = part;
+      }
+
+      else if (!isInitial && firstname === null && lastname !== null) {
+        values.firstname = lastname;
+        values.lastname = part;
+      }
+
+      else if (!isInitial && firstname !== null && lastname !== null) {
+        const lastnamePart = (`${postInitial || ''} ${part}`).trim();
+        values.lastname = `${lastname} ${lastnamePart}`;
+        values.postInitial = null;
+      }
+
+      return {
+        ...obj,
+        ...values,
+      };
+
+    }, {});
+
+  name.fullname = fullname;
+
+  return name;
+};
