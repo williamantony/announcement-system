@@ -3,6 +3,11 @@ import {
 } from '../actions';
 
 const initialState = {
+  isSelected: false,
+  selection: [],
+  entries: {
+
+  },
   info: {
 
   },
@@ -13,9 +18,12 @@ export default (state = initialState, action) => {
     case PEOPLE_SET_INFO:
       return {
         ...state,
-        info: {
-          ...state.info,
-          ...action.payload.info,
+        entries: {
+          ...state.entries,
+          [action.payload.person_id]: {
+            ...state.entries[action.payload.person_id],
+            ...action.payload.info,
+          },
         },
       };
 
