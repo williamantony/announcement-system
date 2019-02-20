@@ -1,0 +1,22 @@
+.PeopleForm {
+  padding: 0px 0px 50px 0px;
+  margin: 0px auto;
+}
+
+.PeopleForm__notifications {
+  padding: 15px;
+  margin-bottom: -30px;
+}
+
+.PeopleForm__inputs {
+  padding: 15px;
+}
+.PeopleForm__inputs .Input__holder {
+  padding: 15px 10px 10px 10px;
+}
+
+.PeopleForm__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 25px;
+}

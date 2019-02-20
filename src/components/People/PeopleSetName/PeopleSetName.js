@@ -9,18 +9,20 @@ import {
   createNotification,
   addPerson,
 } from '../../../redux/actions';
+import uuid from 'uuid/v4';
+import history from '../../../history';
 import Notifications from '../../Notifications/Notifications';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
 import { fromName } from '../../../helper';
-import history from '../../../history';
 import '../PeopleForm.css';
 
 class PeopleSetName extends Component {
   constructor(props) {
     super(props);
+    this.person_id = uuid();
     this.values = {
-      fullname: props.people.info.fullname || '',
+      fullname: (props.people.entries[this.person_id] || {}).fullname || '',
     };
     this.modalId = props.modalId;
     this.noticeId = 'people_set_name';
@@ -43,12 +45,14 @@ class PeopleSetName extends Component {
   }
 
   handleSubmit = () => {
-    if (!this.validateInput()) return false;
+    if (!this.validateInput()) {
+      return false;
+    }
 
     this.props.showPreloader();
 
     const name = fromName(this.values.fullname);
-    this.props.addPerson(name, this.postSubmission);
+    this.props.addPerson(this.person_id, name, this.postSubmission);
   }
 
   postSubmission = ({ data = null, error = null }) => {
