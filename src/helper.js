@@ -95,3 +95,23 @@ export const fromName = (fullname = null) => {
 
   return name;
 };
+
+export const parseJSON = (input) => {
+  try {
+    return JSON.parse(input);
+  } catch (error) {
+    return input;
+  }
+};
+
+export const parseJSONvalue = (input, config) => {
+  const json = parseJSON(input);
+  return Object.keys(config).reduce((values, name) => {
+    return {
+      ...values,
+      [name]: (config[name][0] !== '=')
+        ? config[name].split('::').reduce((value, key) => value[key], json)
+        : config[name].substring(1),
+    };
+  }, {});
+};
