@@ -1,8 +1,10 @@
 import axios from 'axios';
-import { createNotification, hidePreloder } from './index';
+import { createNotification, showPreloader, hidePreloder } from './index';
 import { getCookie } from '../../helper';
 
-export const ADD_PERSON = 'ADD_PERSON';
+export const ADD_NEW_PERSON = 'ADD_NEW_PERSON';
+export const GET_PERSON_INFO = 'GET_PERSON_INFO';
+export const GET_PEOPLE_LIST = 'GET_PEOPLE_LIST';
 export const PEOPLE_SET_INFO = 'PEOPLE_SET_INFO';
 
 export const setPersonInfo = (person_id, info) => {
@@ -18,6 +20,8 @@ export const setPersonInfo = (person_id, info) => {
 export const getPersonInfo = (person_id = null, returns = []) => {
   return async dispatch => {
     try {
+      dispatch(showPreloader());
+
       const token = await getCookie('token');
   
       if (!token) {
@@ -37,9 +41,12 @@ export const getPersonInfo = (person_id = null, returns = []) => {
         throw String('Failed to get person details');
       }
 
-      dispatch(
-        setPersonInfo(person_id, response.data.data)
-      );
+      dispatch({
+        type: GET_PERSON_INFO,
+        payload: response.data.data,
+      })
+
+      dispatch(hidePreloder());
 
     }
     catch (error) {
@@ -62,9 +69,10 @@ export const addPerson = (person_id = null, name = {}, next) => {
         throw String('Missing Token');
       }
 
-      dispatch(
-        setPersonInfo(person_id, name)
-      );
+      dispatch({
+        type: ADD_NEW_PERSON,
+        payload: { name },
+      });
 
       const response = await axios.post('http://10.0.0.50:5000/people/', {
         ...name,
@@ -81,9 +89,7 @@ export const addPerson = (person_id = null, name = {}, next) => {
       });
       
     } catch (error) {
-      dispatch(
-        hidePreloder()
-      );
+      dispatch(hidePreloder());
 
       dispatch(
         createNotification(
@@ -92,6 +98,43 @@ export const addPerson = (person_id = null, name = {}, next) => {
           'people_set_name',
         )
       );
+    }
+  }
+};
+
+export const getPeopleList = () => {
+  return async dispatch => {
+    try {
+      dispatch(showPreloader());
+
+      const token = await getCookie('token');
+  
+      if (!token) {
+        throw String('Missing Token');
+      }
+
+      const endpoint = `http://10.0.0.50:5000/people/`;
+
+      const response = await axios.get(endpoint, {
+        params: {
+          token,
+        },
+      });
+
+      if (response.data.error !== null) {
+        throw String('Failed to get person details');
+      }
+
+      dispatch({
+        type: GET_PEOPLE_LIST,
+        payload: response.data.data,
+      });
+
+      dispatch(hidePreloder());
+
+    }
+    catch (error) {
+      console.log(error);
     }
   }
 };
