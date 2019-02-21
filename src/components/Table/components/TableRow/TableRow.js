@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import uuid from 'uuid/v4';
+import history from '../../../../history';
 import './TableRow.css';
 
 class TableRow extends Component {
@@ -7,10 +8,17 @@ class TableRow extends Component {
     super(props);
     this.state = {
       columns: props.columns || [],
-      values: props.values || [],
+      values: props.values || {},
+      onClick: props.values._onClick || null,
       isSelected: props.isSelected || false,
     };
   }
+
+  onClick = () => {
+    const { onClick } = this.state;
+    if (!onClick) return false;
+    history.push(onClick);
+  };
 
   toggleSelection = () => {
     this.setState({
@@ -31,7 +39,7 @@ class TableRow extends Component {
           <div className="TableRow__selector__icon" data-action="select" />
         </div>
         <div className="TableRow__arrow" />
-        <div className="TableRow__content">
+        <div className="TableRow__content" onClick={this.onClick}>
           {
             columns.map(column => (
               <div key={uuid()} className="TableRow__cell" style={column.style}>{ values[column.name] }</div>
