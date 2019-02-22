@@ -1,5 +1,7 @@
 import {
   CREATE_ROW,
+  SET_ROW_SELECTION,
+  TOGGLE_SELECT_ALL_ROWS,
   CHECK_ROW_SELECTION,
 } from '../actions';
 
@@ -22,6 +24,33 @@ export default (state = initialState, action) => {
             isSelected: false,
           },
         },
+      };
+
+    case SET_ROW_SELECTION:
+      return {
+        ...state,
+        rows: {
+          ...state.rows,
+          [action.payload.id]: {
+            ...state[action.payload.id],
+            isSelected: action.payload.selection,
+          },
+        },
+      };
+    
+    case TOGGLE_SELECT_ALL_ROWS:
+      return {
+        ...state,
+        isAllSelected: !state.isAllSelected,
+        rows: Object.keys(state.rows).reduce((rows, row_id) => {
+          return {
+            ...rows,
+            [row_id]: {
+              ...state.rows[row_id],
+              isSelected: !state.isAllSelected,
+            },
+          };
+        }, {}),
       };
 
     case CHECK_ROW_SELECTION:
