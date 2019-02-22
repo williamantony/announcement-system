@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createRow, setRowSelection } from '../../../../redux/actions';
 import uuid from 'uuid/v4';
 import history from '../../../../history';
 import './TableRow.css';
@@ -6,12 +8,27 @@ import './TableRow.css';
 class TableRow extends Component {
   constructor(props) {
     super(props);
+    const values = props.values || {};
     this.state = {
+      id: values._id || uuid(),
       columns: props.columns || [],
-      values: props.values || {},
-      onClick: props.values._onClick || null,
+      values: values || {},
+      onClick: values._onClick || null,
       isSelected: props.isSelected || false,
     };
+  }
+
+  componentDidMount() {
+    this.props.createRow(this.state.id);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.isSelected !== state.isSelected) {
+      return {
+        isSelected: props.isSelected,
+      };
+    }
+    return null;
   }
 
   onClick = () => {
@@ -21,9 +38,7 @@ class TableRow extends Component {
   };
 
   toggleSelection = () => {
-    this.setState({
-      isSelected: !this.state.isSelected,
-    });
+    this.props.setRowSelection(this.state.id, !this.state.isSelected);
   }
 
   render() {
@@ -52,4 +67,17 @@ class TableRow extends Component {
 
 };
 
-export default TableRow;
+const mapStateToProps = (state, props) => {
+  return {
+    ...(state.table.rows[props.values._id] || {
+      isSelected: false,
+    }),
+  };
+};
+
+const mapDispatchToProps = {
+  createRow,
+  setRowSelection,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TableRow);
