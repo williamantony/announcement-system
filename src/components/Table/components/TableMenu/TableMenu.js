@@ -13,6 +13,11 @@ class TableMenu extends Component {
       isSelected: false,
       isMultiSelected: false,
     };
+    this.events = {
+      onEdit: props.onEdit || (() => {}),
+      onDelete: props.onDelete || (() => {}),
+      onMenu: props.onMenu || (() => {}),
+    };
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -25,7 +30,6 @@ class TableMenu extends Component {
     }
     return null;
   }
-
 
   render() {
     return (
@@ -47,9 +51,18 @@ class TableMenu extends Component {
               <TableMenuItem icon="search" />
             </div>
             <div className="TableMenu__list__set">
-              <TableMenuItem text="Edit" icon="edit" data-active={!this.state.isMultiSelected} />
-              <TableMenuItem text="Delete" icon="delete" />
-              <TableMenuItem icon="menu" />
+              <TableMenuItem
+                text="Edit"
+                icon="edit"
+                data-active={!this.state.isMultiSelected}
+                onClick={(e) => this.events.onEdit(e)}
+              />
+              <TableMenuItem
+                text="Delete"
+                icon="delete"
+                onClick={(e) => this.events.onDelete(e)}
+              />
+              <TableMenuItem icon="menu" onClick={(e) => this.events.onMenu(e)} />
             </div>
           </div>
 
@@ -62,8 +75,8 @@ class TableMenu extends Component {
 
 const mapStateToProps = state => {
   return {
-    isSelected: state.people.isSelected || false,
-    isMultiSelected: state.people.isMultiSelected || false,
+    isSelected: state.table.isSelected || false,
+    isMultiSelected: state.table.isMultiSelected || false,
   };
 };
 
