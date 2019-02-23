@@ -1,5 +1,6 @@
 import {
   ADD_NEW_PERSON,
+  DELETE_PEOPLE,
   GET_PERSON_INFO,
   GET_PEOPLE_LIST,
   PEOPLE_SET_INFO,
@@ -45,6 +46,16 @@ export default (state = initialState, action) => {
             ...action.payload.info,
           },
         },
+      };
+
+    case DELETE_PEOPLE:
+      const peopleListAfterDelete = state.entries;
+      action.payload.people.forEach(person_id => {
+        delete peopleListAfterDelete[person_id];
+      });
+      return {
+        ...state,
+        entries: peopleListAfterDelete,
       };
 
     default:
