@@ -1,12 +1,15 @@
 import {
   CREATE_ROW,
+  DELETE_ROWS,
   SET_ROW_SELECTION,
   TOGGLE_SELECT_ALL_ROWS,
   CHECK_ROW_SELECTION,
+  GET_SELECTED_ROWS,
 } from '../actions';
 
 const initialState = {
   rows: {},
+  selection: [],
   isSelected: false,
   isMultiSelected: false,
   isAllSelected: false,
@@ -90,6 +93,29 @@ export default (state = initialState, action) => {
           }
   
         })(),
+      };
+
+    case GET_SELECTED_ROWS:
+      return {
+        ...state,
+        selection: Object.keys(state.rows).reduce((list, row_id) => {
+          if (state.rows[row_id].isSelected)
+            return [ ...list, row_id ];
+          return list;
+        }, []),
+      }
+    
+    case DELETE_ROWS:
+      return {
+        ...state,
+        rows: Object.keys(state.rows).reduce((rows, row_id) => {
+          const rowMatch = action.payload.rows.findIndex(id => row_id === id);
+          return !rowMatch
+            ? {
+              ...rows,
+              [row_id]: state.rows[row_id],
+            } : rows;
+        }, {}),
       };
 
     default:
