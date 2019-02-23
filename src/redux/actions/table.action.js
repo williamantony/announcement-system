@@ -1,10 +1,12 @@
 /**
  * Table
  */
-export const CREATE_ROW = 'CREATE_ROW'; 
+export const CREATE_ROW = 'CREATE_ROW';
+export const DELETE_ROWS = 'DELETE_ROWS';
 export const SET_ROW_SELECTION = 'SET_ROW_SELECTION';
 export const TOGGLE_SELECT_ALL_ROWS = 'TOGGLE_SELECT_ALL_ROWS';
 export const CHECK_ROW_SELECTION = 'CHECK_ROW_SELECTION';
+export const GET_SELECTED_ROWS = 'GET_SELECTED_ROWS';
 
 export const createRow = (id = null) => {
   return dispatch => {
@@ -16,6 +18,24 @@ export const createRow = (id = null) => {
         id,
       },
     });
+
+    dispatch(checkRowSelection());
+
+  };
+};
+
+export const deleteRows = (rows = []) => {
+  return dispatch => {
+
+    dispatch({
+      type: DELETE_ROWS,
+      payload: {
+        rows,
+      },
+    });
+
+    dispatch(checkRowSelection());
+
   };
 };
 
@@ -55,5 +75,11 @@ export const toggleSelectAllRows = () => {
 
     dispatch(checkRowSelection());
 
+  };
+};
+
+export const getSelectedRows = () => {
+  return {
+    type: GET_SELECTED_ROWS,
   };
 };
