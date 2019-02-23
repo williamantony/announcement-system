@@ -7,9 +7,7 @@ import {
 } from '../actions';
 
 const initialState = {
-  isSelected: false,
-  selection: [],
-  entries: {},
+  list: [],
   person: {},
 };
 
@@ -33,7 +31,15 @@ export default (state = initialState, action) => {
     case GET_PEOPLE_LIST:
       return {
         ...state,
-        entries: action.payload,
+        list: Object.keys(action.payload.people).reduce((list, person_id) => {
+          return [
+            ...list,
+            {
+              person_id,
+              ...action.payload.people[person_id],
+            },
+          ];
+        }, []),
       };
 
     case PEOPLE_SET_INFO:

@@ -128,7 +128,9 @@ export const getPeopleList = () => {
 
       dispatch({
         type: GET_PEOPLE_LIST,
-        payload: response.data.data,
+        payload: {
+          people: response.data.data,
+        },
       });
 
       dispatch(hidePreloder());
