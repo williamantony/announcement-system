@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { createNotification, showPreloader, hidePreloder } from './index';
+import { createNotification, showPreloader, hidePreloder, deleteRows } from './index';
 import { getCookie } from '../../helper';
 
 export const ADD_NEW_PERSON = 'ADD_NEW_PERSON';
 export const GET_PERSON_INFO = 'GET_PERSON_INFO';
 export const GET_PEOPLE_LIST = 'GET_PEOPLE_LIST';
+export const DELETE_PEOPLE = 'DELETE_PEOPLE';
 export const PEOPLE_SET_INFO = 'PEOPLE_SET_INFO';
 
 export const setPersonInfo = (person_id, info) => {
@@ -137,4 +138,53 @@ export const getPeopleList = () => {
       console.log(error);
     }
   }
+};
+
+export const deletePeople = (people = '', next) => {
+  return async dispatch => {
+    try {
+      dispatch(showPreloader());
+  
+      const token = await getCookie('token');
+  
+      if (!token) {
+        throw String('Missing Token');
+      }
+  
+      const endpoint = `http://10.0.0.50:5000/people/`;
+  
+      const response = await axios.delete(endpoint, {
+        params: {
+          token,
+          people,
+        },
+      });
+
+      if (response.data.error !== null) {
+        throw String('Failed to delete people');
+      }
+
+      if (response.data.data.status === 'COMPLETE') {
+
+        dispatch({
+          type: DELETE_PEOPLE,
+          payload: {
+            people: response.data.data.people,
+          },
+        });
+
+        next();
+
+      } else {
+        console.log('status::INCOMPLETE not implemented');
+      }
+
+      dispatch(hidePreloder());
+      
+    } catch (error) {
+
+      console.log(error);
+      
+    }
+  };
 };
