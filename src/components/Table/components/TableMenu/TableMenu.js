@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { showModal } from '../../../../redux/actions';
+import uuid from 'uuid/v4';
 import './TableMenu.css';
 import TableMenuItem from './components/TableMenuItem/TableMenuItem';
+import TableMenuDeleteConfirmation from './components/TableMenuDeleteConfirmation/TableMenuDeleteConfirmation';
 
 class TableMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
       customMenu: props.customMenu,
-      isSelected: false,
-      isMultiSelected: false,
+      selection: props.selection,
+      isSelected: props.isSelected,
+      isMultiSelected: props.isMultiSelected,
     };
     this.events = {
       onEdit: props.onEdit || (() => {}),
@@ -22,13 +25,28 @@ class TableMenu extends Component {
 
   static getDerivedStateFromProps(props, state) {
     if (props.isSelected !== state.isSelected ||
-      props.isMultiSelected !== state.isMultiSelected) {
+      props.isMultiSelected !== state.isMultiSelected ||
+      props.selection.length !== state.selection.length
+    ) {
       return {
+        selection: props.selection,
         isSelected: props.isSelected,
         isMultiSelected: props.isMultiSelected,
       };
     }
     return null;
+  }
+
+  onDelete = () => {
+    const modalId = uuid();
+    this.props.showModal(
+      modalId,
+      <TableMenuDeleteConfirmation
+        modalId={modalId}
+        onDelete={() => this.events.onDelete(this.state.selection)}
+      />,
+      'Confirmation Required',
+    );
   }
 
   render() {
@@ -60,7 +78,7 @@ class TableMenu extends Component {
               <TableMenuItem
                 text="Delete"
                 icon="delete"
-                onClick={(e) => this.events.onDelete(e)}
+                onClick={(e) => this.onDelete(e)}
               />
               <TableMenuItem icon="menu" onClick={(e) => this.events.onMenu(e)} />
             </div>
@@ -75,6 +93,7 @@ class TableMenu extends Component {
 
 const mapStateToProps = state => {
   return {
+    selection: state.table.selection || [],
     isSelected: state.table.isSelected || false,
     isMultiSelected: state.table.isMultiSelected || false,
   };
