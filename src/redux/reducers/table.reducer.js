@@ -1,7 +1,8 @@
 import {
   CREATE_TABLE,
   UPDATE_TABLE,
-  SET_TABLE_SELECTION,
+  SELECT_TABLE_ROW,
+  SELECT_TABLE_ALL,
 } from '../actions';
 
 const initialState = {
@@ -37,7 +38,19 @@ export default (state = initialState, action) => {
         },
       };
 
-    case SET_TABLE_SELECTION:
+    case SELECT_TABLE_ROW:
+      return {
+        ...state,
+        instances: {
+          ...state.instances,
+          [action.payload.tableId] : {
+            ...state.instances[action.payload.tableId],
+            selection: action.payload.selection,
+          },
+        }
+      }
+
+    case SELECT_TABLE_ALL:
       return {
         ...state,
         instances: {
