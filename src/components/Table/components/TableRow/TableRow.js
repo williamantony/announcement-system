@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createRow, setRowSelection } from '../../../../redux/actions';
+import { selectTableRow } from '../../../../redux/actions';
 import uuid from 'uuid/v4';
 import history from '../../../../history';
 import './TableRow.css';
@@ -9,17 +9,14 @@ class TableRow extends Component {
   constructor(props) {
     super(props);
     const values = props.values || {};
+    this.tableName = props.tableName || uuid();
     this.state = {
-      id: values._id || uuid(),
+      id: props.rowId || uuid(),
       columns: props.columns || [],
       values: values || {},
       onClick: values._onClick || null,
       isSelected: props.isSelected || false,
     };
-  }
-
-  componentDidMount() {
-    this.props.createRow(this.state.id);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -38,7 +35,7 @@ class TableRow extends Component {
   };
 
   toggleSelection = () => {
-    this.props.setRowSelection(this.state.id, !this.state.isSelected);
+    this.props.selectTableRow(this.tableName, this.state.id);
   }
 
   render() {
@@ -67,17 +64,17 @@ class TableRow extends Component {
 
 };
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state, ownProps) => {
+  const table = state.table.instances[ownProps.tableName];
+  const isSelected = table.selection
+    .findIndex(item => item === ownProps.rowId) !== -1;
   return {
-    ...(state.table.rows[props.values._id] || {
-      isSelected: false,
-    }),
+    isSelected,
   };
 };
 
 const mapDispatchToProps = {
-  createRow,
-  setRowSelection,
+  selectTableRow,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableRow);

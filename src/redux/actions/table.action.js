@@ -75,8 +75,8 @@ export const selectAllTableRows = (tableId = null) => {
     const table = getState().table.instances[tableId];
 
     const selection = (table.selection.length === 0)
-      ? table.selection.map(row => row._id)
-      : []; 
+      ? table.rows.map(row => row._id)
+      : [];
 
     dispatch({
       type: SELECT_TABLE_ALL,

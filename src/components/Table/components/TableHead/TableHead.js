@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { toggleSelectAllRows } from '../../../../redux/actions';
+import { selectAllTableRows } from '../../../../redux/actions';
 import uuid from 'uuid/v4';
 import './TableHead.css';
 
 class TableHead extends Component {
   constructor(props) {
     super(props);
+    this.tableName = props.tableName || uuid();
     this.state = {
       columns: props.columns || [],
       isAllSelected: false,
@@ -23,7 +24,7 @@ class TableHead extends Component {
   }
 
   toggleSelectAll = () => {
-    this.props.toggleSelectAllRows();
+    this.props.selectAllTableRows(this.tableName);
   }
 
   render() {
@@ -56,14 +57,18 @@ class TableHead extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+  const table = state.table.instances[ownProps.tableName] || {};
+  const rows = table.rows || [];
+  const selection = table.selection || [];
+  const isAllSelected = (rows.length === selection.length);
   return {
-    isAllSelected: state.table.isAllSelected,
+    isAllSelected,
   };
 };
 
 const mapDispatchToProps = {
-  toggleSelectAllRows,
+  selectAllTableRows,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableHead);
