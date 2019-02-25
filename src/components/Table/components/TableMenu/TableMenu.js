@@ -47,6 +47,12 @@ class TableMenu extends Component {
     );
   }
 
+  onEdit = (e) => {
+    if (!this.state.isMultiSelected) {
+      this.events.onEdit(e);
+    }
+  }
+
   render() {
     return (
       <div className="TableMenu">
@@ -71,7 +77,7 @@ class TableMenu extends Component {
                 text="Edit"
                 icon="edit"
                 data-active={!this.state.isMultiSelected}
-                onClick={(e) => this.events.onEdit(e)}
+                onClick={(e) => this.onEdit(e)}
               />
               <TableMenuItem
                 text="Delete"
