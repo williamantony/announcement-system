@@ -10,9 +10,9 @@ import TableMenuDeleteConfirmation from './components/TableMenuDeleteConfirmatio
 class TableMenu extends Component {
   constructor(props) {
     super(props);
+    this.tableName = props.tableName || uuid();
     this.state = {
       customMenu: props.customMenu,
-      selection: props.selection,
       isSelected: props.isSelected,
       isMultiSelected: props.isMultiSelected,
     };
@@ -25,11 +25,8 @@ class TableMenu extends Component {
 
   static getDerivedStateFromProps(props, state) {
     if (props.isSelected !== state.isSelected ||
-      props.isMultiSelected !== state.isMultiSelected ||
-      props.selection.length !== state.selection.length
-    ) {
+      props.isMultiSelected !== state.isMultiSelected) {
       return {
-        selection: props.selection,
         isSelected: props.isSelected,
         isMultiSelected: props.isMultiSelected,
       };
@@ -43,7 +40,8 @@ class TableMenu extends Component {
       modalId,
       <TableMenuDeleteConfirmation
         modalId={modalId}
-        onDelete={() => this.events.onDelete(this.state.selection)}
+        tableName={this.tableName}
+        onDelete={(selection) => this.events.onDelete(selection)}
       />,
       'Confirmation Required',
     );
@@ -91,11 +89,15 @@ class TableMenu extends Component {
 
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+  const table = state.table.instances[ownProps.tableName] || {
+    selection: [],
+  };
+  const isSelected = table.selection.length !== 0;
+  const isMultiSelected = table.selection.length > 1;
   return {
-    selection: state.table.selection || [],
-    isSelected: state.table.isSelected || false,
-    isMultiSelected: state.table.isMultiSelected || false,
+    isSelected,
+    isMultiSelected,
   };
 };
 
