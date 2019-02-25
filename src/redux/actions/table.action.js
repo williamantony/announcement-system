@@ -3,7 +3,7 @@
  */
 export const CREATE_TABLE = 'CREATE_TABLE';
 export const UPDATE_TABLE = 'UPDATE_TABLE';
-export const SET_TABLE_SELECTION = 'SET_TABLE_SELECTION';
+export const SELECT_TABLE_ROW = 'SELECT_TABLE_ROW';
 
 export const createTable = (tableId = null, config = {}) => {
   return dispatch => {
@@ -40,19 +40,21 @@ export const updateTable = (tableId = null, updateData = {}) => {
   };
 };
 
-export const toggleRowSelection = (tableId = null, rowId) => {
+export const selectTableRow = (tableId = null, rowId) => {
   return (dispatch, getState) => {
 
     if (tableId === null)
       return false;
 
-    let selection = getState().table.instances[tableId].selection;
-    const isSelected = selection.findIndex(item => item === rowId) !== -1;
+    const table = getState().table.instances[tableId];
+    const isSelected = table.selection.findIndex(item => item === rowId) !== -1;
 
-    selection = (isSelected) ? selection.filter(id => id !== rowId) : [ ...selection, rowId ];
+    const selection = (isSelected)
+      ? table.selection.filter(id => id !== rowId)
+      : [ ...table.selection, rowId ];
 
     dispatch({
-      type: SET_TABLE_SELECTION,
+      type: SELECT_TABLE_ROW,
       payload: {
         tableId,
         rowId,
