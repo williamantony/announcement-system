@@ -58,13 +58,21 @@ class Table extends Component {
     return (
       <div className="Table">
         <TableMenu
+          tableName={this.name}
           onEdit={onEdit}
           onDelete={onDelete}
           onMenu={onMenu}
           customMenu={customMenu}
         />
-        <TableHead columns={columns} />
-        <TableBody columns={columns} rows={rows} tableName={this.name} />
+        <TableHead
+          tableName={this.name}
+          columns={columns}
+        />
+        <TableBody
+          tableName={this.name}
+          columns={columns}
+          rows={rows}
+        />
       </div>
     );
   }
