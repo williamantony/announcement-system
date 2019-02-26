@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { createNotification, showPreloader, hidePreloder, deleteRows } from './index';
-import { getCookie } from '../../helper';
+import { createNotification, showPreloader, hidePreloder } from './index';
+import { getCookie, filter } from '../../helper';
 
 export const ADD_NEW_PERSON = 'ADD_NEW_PERSON';
 export const GET_PERSON_INFO = 'GET_PERSON_INFO';
@@ -143,7 +143,7 @@ export const getPeopleList = () => {
 };
 
 export const deletePeople = (people = '', next) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
       dispatch(showPreloader());
   
@@ -168,10 +168,16 @@ export const deletePeople = (people = '', next) => {
 
       if (response.data.data.status === 'COMPLETE') {
 
+        const peopleList = getState().people.list;
+        const compareList = response.data.data.people;
+        const compare = (a, b) => a.person_id !== b;
+
+        const people = filter(peopleList, compareList, compare);
+        
         dispatch({
           type: DELETE_PEOPLE,
           payload: {
-            people: response.data.data.people,
+            people,
           },
         });
 

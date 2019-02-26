@@ -55,13 +55,9 @@ export default (state = initialState, action) => {
       };
 
     case DELETE_PEOPLE:
-      const peopleListAfterDelete = state.entries;
-      action.payload.people.forEach(person_id => {
-        delete peopleListAfterDelete[person_id];
-      });
       return {
         ...state,
-        entries: peopleListAfterDelete,
+        list: action.payload.people,
       };
 
     default:

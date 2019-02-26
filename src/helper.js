@@ -115,3 +115,14 @@ export const parseJSONvalue = (input, config) => {
     };
   }, {});
 };
+
+export const filter = (inputList = [], compareList = [], compare = ((a, b) => false)) => {
+  console.info('helper:filter() :: Refactor this');
+
+  let list = inputList;
+
+  for (let i = 0; i < compareList.length; i++)
+    list = list.filter(item => compare(item, compareList[i]));
+
+  return list;
+};
